@@ -12,7 +12,7 @@ public class MainUI extends VerticalLayout {
 
     @PostConstruct
     private void init() {
-        this.test = new Text("Hello bro!");
+        this.test = new Text("Tu bedzie ogolny przeglad!");
         add(this.test);
     }
 }
