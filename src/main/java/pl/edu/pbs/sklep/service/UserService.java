@@ -2,7 +2,7 @@ package pl.edu.pbs.sklep.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.edu.pbs.sklep.model.entities.User;
+import pl.edu.pbs.sklep.model.User;
 import pl.edu.pbs.sklep.repository.UserRepository;
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
