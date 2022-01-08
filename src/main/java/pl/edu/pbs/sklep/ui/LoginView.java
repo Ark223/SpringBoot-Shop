@@ -2,10 +2,14 @@ package pl.edu.pbs.sklep.ui;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
+import pl.edu.pbs.sklep.ShopApplication;
+import pl.edu.pbs.sklep.model.User;
 import pl.edu.pbs.sklep.repository.UserRepository;
+import java.util.Optional;
 
 @Route("/login")
 public class LoginView extends Composite<LoginOverlay> {
@@ -21,10 +25,13 @@ public class LoginView extends Composite<LoginOverlay> {
         this.loginOverlay.setOpened(true);
 
         this.loginOverlay.addLoginListener(event -> {
-            if (userRepository.findAll().stream().anyMatch(u ->
-                u.getUsername().equals(event.getUsername()) &&
-                u.getPassword().equals(event.getPassword())))
+            Optional<User> user = userRepository.findAll().stream()
+                .filter(u -> u.getUsername().equals(event.getUsername()) &&
+                u.getPassword().equals(event.getPassword())).findFirst();
+            if (user.isPresent()) {
                 UI.getCurrent().navigate(UserView.class);
+                ShopApplication.loggedIn.add(user.get().getId());
+            }
             else this.loginOverlay.setError(true);
         });
     }
