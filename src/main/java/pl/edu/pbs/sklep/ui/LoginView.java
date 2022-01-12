@@ -2,6 +2,7 @@ package pl.edu.pbs.sklep.ui;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.router.Route;
@@ -12,6 +13,7 @@ import pl.edu.pbs.sklep.repository.UserRepository;
 import java.util.Optional;
 
 @Route("/login")
+@StyleSheet("/css/style.css")
 public class LoginView extends Composite<LoginOverlay> {
     private LoginOverlay loginOverlay;
 
