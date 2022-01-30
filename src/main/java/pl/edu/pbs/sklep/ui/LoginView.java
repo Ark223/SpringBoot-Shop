@@ -31,8 +31,8 @@ public class LoginView extends Composite<LoginOverlay> {
                 .filter(u -> u.getUsername().equals(event.getUsername()) &&
                 u.getPassword().equals(event.getPassword())).findFirst();
             if (user.isPresent()) {
+                ShopApplication.loggedIn = user.get().getId();
                 UI.getCurrent().navigate(UserView.class);
-                ShopApplication.loggedIn.add(user.get().getId());
             }
             else this.loginOverlay.setError(true);
         });

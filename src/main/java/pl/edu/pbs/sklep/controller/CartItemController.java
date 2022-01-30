@@ -19,7 +19,7 @@ public class CartItemController {
     @PostMapping("/add")
     public void addItemToCart(Product product, User user) {
         Integer userId = user.getId();
-        if (!ShopApplication.loggedIn.contains(userId)) return;
+        if (!ShopApplication.loggedIn.equals(userId)) return;
         CartItem item = new CartItem(0, product, user);
         cartItemRepository.save(item);
     }

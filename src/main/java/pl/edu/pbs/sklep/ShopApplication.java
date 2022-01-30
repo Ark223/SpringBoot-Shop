@@ -11,7 +11,7 @@ import java.util.List;
 @EntityScan("pl.edu.pbs.sklep.model")
 @ComponentScan(basePackages={"pl.edu.pbs.sklep"})
 public class ShopApplication {
-    public static List<Integer> loggedIn = new ArrayList<>();
+    public static Integer loggedIn = -1;
     public static void main(String[] args) {
         SpringApplication.run(ShopApplication.class, args);
     }
