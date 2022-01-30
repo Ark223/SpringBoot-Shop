@@ -30,9 +30,13 @@ public class MainView extends VerticalLayout {
         this.layout.setSizeFull();
         Button register = new Button("Zarejestruj się");
         register.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        Button login = new Button("Zaloguj się");
+        login.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        login.addClickListener(e -> UI.getCurrent().navigate(LoginView.class));
+        this.layout.setHorizontalComponentAlignment(Alignment.END, login);
         this.layout.setHorizontalComponentAlignment(Alignment.END, register);
-        List<Item> items = new ArrayList<>();
         List<Product> products = this.productRepository.findAll();
+        List<Item> items = new ArrayList<>();
         for (Product product : products) {
             Item item = new Item();
             item.name = product.getName();
@@ -57,7 +61,7 @@ public class MainView extends VerticalLayout {
         grid.addColumn(i -> i.price).setHeader("Cena").setAutoWidth(true);
         grid.addComponentColumn(i -> i.button).setHeader("").setAutoWidth(true);
         grid.setItems(items);
-        this.layout.add(register, grid);
+        this.layout.add(login, register, grid);
         add(this.layout);
     }
 
