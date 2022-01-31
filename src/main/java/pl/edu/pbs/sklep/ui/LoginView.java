@@ -3,7 +3,6 @@ package pl.edu.pbs.sklep.ui;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.StyleSheet;
-import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;

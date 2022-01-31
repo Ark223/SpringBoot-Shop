@@ -7,6 +7,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class MainView extends VerticalLayout {
         this.layout.setSizeFull();
         Button register = new Button("Zarejestruj się");
         register.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        register.addClickListener(e -> UI.getCurrent().navigate(RegisterView.class));
         Button login = new Button("Zaloguj się");
         login.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         login.addClickListener(e -> UI.getCurrent().navigate(LoginView.class));
@@ -40,7 +42,10 @@ public class MainView extends VerticalLayout {
         for (Product product : products) {
             Item item = new Item();
             item.name = product.getName();
-            item.description = product.getDescription();
+            item.category = product.getCategory();
+            item.description = new Label(product.getDescription());
+            item.description.setSizeUndefined();
+            item.description.getStyle().set("line-break", "auto");
             item.image = new Image(product.getImageUrl(), "");
             item.image.setWidth(400, Unit.PIXELS);
             item.image.setHeight(200, Unit.PIXELS);
@@ -53,10 +58,11 @@ public class MainView extends VerticalLayout {
         }
         Grid<Item> grid = new Grid<>(Item.class, false);
         grid.setVerticalScrollingEnabled(true);
-        grid.setHeight(300, Unit.PIXELS);
         grid.setHeightByRows(true);
         grid.addColumn(i -> i.name).setHeader("Nazwa produktu").setAutoWidth(true);
-        grid.addColumn(i -> i.description).setHeader("Opis produktu").setAutoWidth(true);
+        grid.addColumn(i -> i.category).setHeader("Kategoria").setAutoWidth(true);
+        grid.addComponentColumn(i -> i.description).setHeader(
+                "Opis produktu").setWidth("500px").setResizable(true);
         grid.addComponentColumn(i -> i.image).setHeader("Zdjęcie").setAutoWidth(true);
         grid.addColumn(i -> i.price).setHeader("Cena").setAutoWidth(true);
         grid.addComponentColumn(i -> i.button).setHeader("").setAutoWidth(true);
@@ -67,7 +73,8 @@ public class MainView extends VerticalLayout {
 
     private class Item {
         public String name;
-        public String description;
+        public String category;
+        public Label description;
         public Image image;
         public String price;
         public Button button;
