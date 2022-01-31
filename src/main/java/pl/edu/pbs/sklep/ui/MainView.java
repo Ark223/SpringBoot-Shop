@@ -8,7 +8,9 @@ import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.pbs.sklep.model.Product;
@@ -18,25 +20,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Route("/")
+@PageTitle("Sklep komputerowy")
 @StyleSheet("/css/style.css")
 public class MainView extends VerticalLayout {
     private static final long serialVersionUID = 1L;
-    private VerticalLayout layout = new VerticalLayout();
+    private HorizontalLayout layout = new HorizontalLayout();
+    private Button login, register;
+    private Grid<Item> grid;
 
     @Autowired
     ProductRepository productRepository;
 
     @PostConstruct
     private void init() {
-        this.layout.setSizeFull();
-        Button register = new Button("Zarejestruj się");
-        register.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        register.addClickListener(e -> UI.getCurrent().navigate(RegisterView.class));
-        Button login = new Button("Zaloguj się");
-        login.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        login.addClickListener(e -> UI.getCurrent().navigate(LoginView.class));
-        this.layout.setHorizontalComponentAlignment(Alignment.END, login);
-        this.layout.setHorizontalComponentAlignment(Alignment.END, register);
+        this.login = new Button("Zaloguj się");
+        this.login.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        this.login.addClickListener(e -> UI.getCurrent().navigate(LoginView.class));
+
+        this.register = new Button("Zarejestruj się");
+        this.register.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        this.register.addClickListener(e -> UI.getCurrent().navigate(RegisterView.class));
+
         List<Product> products = this.productRepository.findAll();
         List<Item> items = new ArrayList<>();
         for (Product product : products) {
@@ -56,19 +60,23 @@ public class MainView extends VerticalLayout {
             });
             items.add(item);
         }
-        Grid<Item> grid = new Grid<>(Item.class, false);
-        grid.setVerticalScrollingEnabled(true);
-        grid.setHeightByRows(true);
-        grid.addColumn(i -> i.name).setHeader("Nazwa produktu").setAutoWidth(true);
-        grid.addColumn(i -> i.category).setHeader("Kategoria").setAutoWidth(true);
-        grid.addComponentColumn(i -> i.description).setHeader(
+
+        this.grid = new Grid<>(Item.class, false);
+        this.grid.setVerticalScrollingEnabled(true);
+        this.grid.setHeightByRows(true);
+        this.grid.addColumn(i -> i.name).setHeader("Nazwa produktu").setAutoWidth(true);
+        this.grid.addColumn(i -> i.category).setHeader("Kategoria").setAutoWidth(true);
+        this.grid.addComponentColumn(i -> i.description).setHeader(
                 "Opis produktu").setWidth("500px").setResizable(true);
-        grid.addComponentColumn(i -> i.image).setHeader("Zdjęcie").setAutoWidth(true);
-        grid.addColumn(i -> i.price).setHeader("Cena").setAutoWidth(true);
-        grid.addComponentColumn(i -> i.button).setHeader("").setAutoWidth(true);
-        grid.setItems(items);
-        this.layout.add(login, register, grid);
-        add(this.layout);
+        this.grid.addComponentColumn(i -> i.image).setHeader("Zdjęcie").setAutoWidth(true);
+        this.grid.addColumn(i -> i.price).setHeader("Cena").setAutoWidth(true);
+        this.grid.addComponentColumn(i -> i.button).setHeader("").setAutoWidth(true);
+        this.grid.setItems(items);
+
+        setSizeFull();
+        this.layout.add(this.login, this.register);
+        setHorizontalComponentAlignment(Alignment.END, this.layout);
+        add(this.layout, this.grid);
     }
 
     private class Item {

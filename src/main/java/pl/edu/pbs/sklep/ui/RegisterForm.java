@@ -36,11 +36,12 @@ public class RegisterForm extends FormLayout {
         this.allow.getStyle().set("margin-top", "10px");
         this.password = new PasswordField("Hasło");
         this.passwordConfirm = new PasswordField("Potwierdź hasło");
-        setRequiredIndicatorVisible(this.username,
-            this.email, this.password, this.passwordConfirm);
         this.errorMessageField = new Span();
         this.submitButton = new Button("Zarejestruj konto");
         this.submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        setRequiredIndicatorVisible(this.username,
+            this.email, this.password, this.passwordConfirm);
         add(this.title, this.firstName, this.lastName, this.username,
             this.phoneNumber, this.email, this.password, this.passwordConfirm,
             this.allow, this.errorMessageField, this.submitButton);
@@ -48,6 +49,7 @@ public class RegisterForm extends FormLayout {
         setResponsiveSteps(
             new ResponsiveStep("0", 1, ResponsiveStep.LabelsPosition.TOP),
             new ResponsiveStep("490px", 2, ResponsiveStep.LabelsPosition.TOP));
+
         setColspan(this.title, 2);
         setColspan(this.email, 2);
         setColspan(this.errorMessageField, 2);

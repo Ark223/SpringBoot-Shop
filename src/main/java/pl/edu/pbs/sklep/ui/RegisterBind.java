@@ -1,18 +1,17 @@
 package pl.edu.pbs.sklep.ui;
 
 import com.vaadin.flow.component.UI;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.vaadin.flow.component.notification.Notification;
 import pl.edu.pbs.sklep.model.User;
 import pl.edu.pbs.sklep.repository.UserRepository;
 import java.time.LocalDateTime;
 
 public class RegisterBind {
+    private UserRepository userRepository;
     private RegisterForm form;
 
-    @Autowired
-    UserRepository userRepository;
-
-    public RegisterBind(RegisterForm form) {
+    public RegisterBind(RegisterForm form, UserRepository userRepository) {
+        this.userRepository = userRepository;
         this.form = form;
     }
 
@@ -24,16 +23,16 @@ public class RegisterBind {
             String lastName = this.form.getLastName().getValue();
             String phone = this.form.getPhoneNumber().getValue();
             String email = this.form.getEmail().getValue();
-            if (userRepository.findAll().stream().anyMatch(u -> u.getUsername().equals(user))) {
-                this.form.getErrorMessage().setText("Wpisana nazwa użytkownika już istnieje w bazie.");
+            if (this.userRepository.findAll().stream().anyMatch(u -> u.getUsername().equals(user))) {
+                Notification.show("Wpisana nazwa użytkownika już istnieje w bazie.");
                 return;
             } else if (this.form.getPassword().getValue().length() < 5) {
-                this.form.getErrorMessage().setText("Wpisane hasło jest za krótkie");
+                Notification.show("Wpisane hasło jest za krótkie");
                 return;
             }
             User newUser = new User(0, user, pass, email, phone, firstName,
                 lastName, LocalDateTime.now(), LocalDateTime.now());
-            userRepository.save(newUser);
+            this.userRepository.save(newUser);
             UI.getCurrent().navigate(MainView.class);
         });
     }
