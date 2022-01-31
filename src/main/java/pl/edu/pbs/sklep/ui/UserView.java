@@ -31,7 +31,7 @@ import java.util.List;
 public class UserView extends VerticalLayout {
     private static final long serialVersionUID = 1L;
     private HorizontalLayout layout = new HorizontalLayout();
-    private Label userInfo;
+    private Button userInfo;
     private Button cart, logout;
     private Grid<Item> grid;
 
@@ -52,7 +52,7 @@ public class UserView extends VerticalLayout {
         }
 
         User user = userRepository.findById(ShopApplication.loggedIn).get();
-        this.userInfo = new Label("Zalogowany jako: " + user.getUsername());
+        this.userInfo = new Button("Zalogowany jako: " + user.getUsername());
 
         this.cart = new Button("Zobacz koszyk");
         this.cart.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
