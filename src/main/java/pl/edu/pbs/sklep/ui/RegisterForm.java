@@ -18,6 +18,7 @@ public class RegisterForm extends FormLayout {
     private TextField lastName;
     private TextField username;
     private TextField phoneNumber;
+    private TextField address;
     private EmailField email;
     private PasswordField password;
     private PasswordField passwordConfirm;
@@ -31,6 +32,7 @@ public class RegisterForm extends FormLayout {
         this.lastName = new TextField("Nazwisko");
         this.username = new TextField("Nazwa użytkownika");
         this.phoneNumber = new TextField("Numer telefonu");
+        this.address = new TextField("Adres zamieszkania");
         this.email = new EmailField("Adres email");
         this.allow = new Checkbox("Czy zgadzasz się na przetwarzanie danych?");
         this.allow.getStyle().set("margin-top", "10px");
@@ -40,10 +42,11 @@ public class RegisterForm extends FormLayout {
         this.submitButton = new Button("Zarejestruj konto");
         this.submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        setRequiredIndicatorVisible(this.username,
+        setRequiredIndicatorVisible(this.username, this.address,
             this.email, this.password, this.passwordConfirm);
-        add(this.title, this.firstName, this.lastName, this.username,
-            this.phoneNumber, this.email, this.password, this.passwordConfirm,
+        add(this.title, this.firstName, this.lastName,
+            this.username, this.phoneNumber, this.address,
+            this.email, this.password, this.passwordConfirm,
             this.allow, this.errorMessageField, this.submitButton);
         setMaxWidth("500px");
         setResponsiveSteps(
@@ -51,6 +54,7 @@ public class RegisterForm extends FormLayout {
             new ResponsiveStep("490px", 2, ResponsiveStep.LabelsPosition.TOP));
 
         setColspan(this.title, 2);
+        setColspan(this.address, 2);
         setColspan(this.email, 2);
         setColspan(this.errorMessageField, 2);
         setColspan(this.submitButton, 2);
@@ -60,6 +64,7 @@ public class RegisterForm extends FormLayout {
     public TextField getLastName() { return this.lastName; }
     public TextField getUsername() { return this.username; }
     public TextField getPhoneNumber() { return this.phoneNumber; }
+    public TextField getAddress() { return this.address; }
     public EmailField getEmail() { return this.email; }
     public PasswordField getPassword() { return this.password; }
     public Button getSubmitButton() { return this.submitButton; }

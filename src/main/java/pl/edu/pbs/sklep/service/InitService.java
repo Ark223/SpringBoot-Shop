@@ -20,8 +20,10 @@ public class InitService {
 
     @PostConstruct
     public void init() {
-        User u1 = new User(0, "marek123", "polska55", "maras123@wp.pl", "439898952", "Marek", "Nowak",
-            LocalDateTime.of(2021, 10, 31, 12, 0, 0), LocalDateTime.of(2021, 10, 31, 12, 0, 0));
+        User u1 = new User(0, "marek123", "polska55", "maras123@wp.pl",
+            "ul. Rycerska 8, Bydgoszcz", "439898952", "Marek", "Nowak",
+            LocalDateTime.of(2021, 10, 31, 12, 0, 0),
+            LocalDateTime.of(2021, 10, 31, 12, 0, 0));
         userRepository.save(u1);
 
         Product p1 = new Product(0, "GeForce RTX 3090", "Karty graficzne",

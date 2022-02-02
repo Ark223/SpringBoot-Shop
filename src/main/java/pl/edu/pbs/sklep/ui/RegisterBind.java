@@ -22,19 +22,21 @@ public class RegisterBind {
             String firstName = this.form.getFirstName().getValue();
             String lastName = this.form.getLastName().getValue();
             String phone = this.form.getPhoneNumber().getValue();
+            String address = this.form.getAddress().getValue();
             String email = this.form.getEmail().getValue();
-            if (user.equals("") || pass.equals("") || email.equals("")) {
-                Notification.show("Proszę wypełnić wymagane pola: nazwa użytkownika, hasło i email.");
+            if (user.equals("") || pass.equals("") || address.equals("") || email.equals("")) {
+                Notification.show("Proszę wypełnić wymagane pola zaznaczone kropką.");
                 return;
             } else if (this.userRepository.findAll().stream().anyMatch(u -> u.getUsername().equals(user))) {
                 Notification.show("Wpisana nazwa użytkownika już istnieje w bazie.");
                 return;
-            } else if (this.form.getPassword().getValue().length() < 5) {
-                Notification.show("Wpisane hasło jest za krótkie");
+            } else if (this.form.getPassword().getValue().length() < 8) {
+                Notification.show("Wpisane hasło jest za krótkie.");
                 return;
             }
-            User newUser = new User(0, user, pass, email, phone, firstName,
-                lastName, LocalDateTime.now(), LocalDateTime.now());
+            User newUser = new User(0, user, pass,
+                address, email, phone, firstName, lastName,
+                LocalDateTime.now(), LocalDateTime.now());
             this.userRepository.save(newUser);
             UI.getCurrent().navigate(MainView.class);
         });
