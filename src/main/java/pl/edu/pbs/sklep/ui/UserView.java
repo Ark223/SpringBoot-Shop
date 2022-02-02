@@ -31,8 +31,7 @@ import java.util.List;
 public class UserView extends VerticalLayout {
     private static final long serialVersionUID = 1L;
     private HorizontalLayout layout = new HorizontalLayout();
-    private Button userInfo;
-    private Button cart, logout;
+    private Button cart, logout, userInfo;
     private Grid<Item> grid;
 
     @Autowired

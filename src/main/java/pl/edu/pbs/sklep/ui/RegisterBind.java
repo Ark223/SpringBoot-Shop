@@ -23,7 +23,10 @@ public class RegisterBind {
             String lastName = this.form.getLastName().getValue();
             String phone = this.form.getPhoneNumber().getValue();
             String email = this.form.getEmail().getValue();
-            if (this.userRepository.findAll().stream().anyMatch(u -> u.getUsername().equals(user))) {
+            if (user.equals("") || pass.equals("") || email.equals("")) {
+                Notification.show("Proszę wypełnić wymagane pola: nazwa użytkownika, hasło i email.");
+                return;
+            } else if (this.userRepository.findAll().stream().anyMatch(u -> u.getUsername().equals(user))) {
                 Notification.show("Wpisana nazwa użytkownika już istnieje w bazie.");
                 return;
             } else if (this.form.getPassword().getValue().length() < 5) {

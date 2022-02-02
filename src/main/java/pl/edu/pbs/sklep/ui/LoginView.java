@@ -32,6 +32,7 @@ public class LoginView extends Composite<LoginOverlay> {
             if (user.isPresent()) {
                 ShopApplication.loggedIn = user.get().getId();
                 UI.getCurrent().navigate(UserView.class);
+                UI.getCurrent().getPage().reload();
             }
             else this.loginOverlay.setError(true);
         });
