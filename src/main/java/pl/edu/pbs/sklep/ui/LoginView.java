@@ -5,6 +5,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.pbs.sklep.ShopApplication;
 import pl.edu.pbs.sklep.model.User;
@@ -30,7 +31,9 @@ public class LoginView extends Composite<LoginOverlay> {
                 .filter(u -> u.getUsername().equals(event.getUsername()) &&
                 u.getPassword().equals(event.getPassword())).findFirst();
             if (user.isPresent()) {
-                ShopApplication.loggedIn = user.get().getId();
+                String token = VaadinSession.getCurrent().getCsrfToken();
+                if (!ShopApplication.loggedIn.containsKey(token))
+                    ShopApplication.loggedIn.put(token, user.get().getId());
                 UI.getCurrent().navigate(UserView.class);
                 UI.getCurrent().getPage().reload();
             }

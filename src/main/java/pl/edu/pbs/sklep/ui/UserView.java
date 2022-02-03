@@ -13,6 +13,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.pbs.sklep.ShopApplication;
 import pl.edu.pbs.sklep.model.CartItem;
@@ -45,12 +46,13 @@ public class UserView extends VerticalLayout {
 
     @PostConstruct
     private void init() {
-        if (ShopApplication.loggedIn.equals(-1)) {
+        String token = VaadinSession.getCurrent().getCsrfToken();
+        if (!ShopApplication.loggedIn.containsKey(token)) {
             UI.getCurrent().navigate(LoginView.class);
             return;
         }
 
-        User user = userRepository.findById(ShopApplication.loggedIn).get();
+        User user = userRepository.findById(ShopApplication.loggedIn.get(token)).get();
         this.userInfo = new Button("Zalogowany jako: " + user.getUsername());
 
         this.cart = new Button("Zobacz koszyk");
@@ -60,7 +62,7 @@ public class UserView extends VerticalLayout {
         this.logout = new Button("Wyloguj się");
         this.logout.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         this.logout.addClickListener(e -> {
-            ShopApplication.loggedIn = -1;
+            ShopApplication.loggedIn.remove(token);
             UI.getCurrent().navigate(MainView.class);
         });
 
